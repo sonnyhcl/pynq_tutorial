@@ -1,3 +1,5 @@
+
+
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
@@ -33,7 +35,9 @@ module pynq_tutorial_wrapper
     FIXED_IO_ps_srstb,
     leds,
     pmodJA,
-    buttons);
+    pmodJB,
+    buttons,
+    rgbleds_6bits_tri_o);
     
     inout [14:0]DDR_addr;
     inout [2:0]DDR_ba;
@@ -58,7 +62,9 @@ module pynq_tutorial_wrapper
     inout FIXED_IO_ps_srstb;
     output [3:0]leds;
     inout [7:0]pmodJA;
+    inout [7:0]pmodJB;
     input [4:0]buttons;
+    output [5:0]rgbleds_6bits_tri_o;
 
     wire [14:0]DDR_addr;
     wire [2:0]DDR_ba;
@@ -83,13 +89,19 @@ module pynq_tutorial_wrapper
     wire FIXED_IO_ps_srstb;
     wire [3:0]leds;
     wire [7:0]pmodJA;
+    wire [7:0]pmodJB;
     wire [3:0]buttons;
     
     wire [7:0]pmodJA_in;
     wire [7:0]pmodJA_out;
-    wire [7:0]pmodJA_tri;
+    wire [7:0]pmodJA_tri;     
 
-    pynq_tutorial pynq_tutorial_i
+    wire [7:0]pmodJB_in;
+    wire [7:0]pmodJB_out;
+    wire [7:0]pmodJB_tri;
+    wire [5:0]rgbleds_6bits_tri_o;
+
+  pynq_tutorial pynq_tutorial
        (.DDR_addr(DDR_addr),
         .DDR_ba(DDR_ba),
         .DDR_cas_n(DDR_cas_n),
@@ -111,13 +123,18 @@ module pynq_tutorial_wrapper
         .FIXED_IO_ps_clk(FIXED_IO_ps_clk),
         .FIXED_IO_ps_porb(FIXED_IO_ps_porb),
         .FIXED_IO_ps_srstb(FIXED_IO_ps_srstb),
-        .leds_1_0(leds[1:0]),
+        .btns_1_0(buttons[1:0]),
+        .btns_3_2(buttons[3:2]),
+        .leds_1_0_tri_o(leds[1:0]),
         .leds_3_2(leds[3:2]),
-        .pmodJA_in(pmodJA_in),
-        .pmodJA_out(pmodJA_out),
-        .pmodJA_tri(pmodJA_tri),
-        .buttons_1_0(buttons[1:0]),
-        .buttons_3_2(buttons[3:2]));
+        .pmodJA_data_in(pmodJA_data_in),
+        .pmodJA_data_out(pmodJA_data_out),
+        .pmodJA_tri_out(pmodJA_tri_out),
+        .pmodJB_data_in(pmodJB_data_in),
+        .pmodJB_data_out(pmodJB_data_out),
+        .pmodJB_tri_out(pmodJB_tri_out),
+        .rgbleds_6bits_tri_o(rgbleds_6bits_tri_o),
+        .sws_2bits_tri_i(sws_2bits_tri_i));
     
         
   // pmodJA related iobufs
@@ -161,4 +178,46 @@ module pynq_tutorial_wrapper
           .IO(pmodJA[7]),
           .O(pmodJA_in[7]),
           .T(pmodJA_tri[7]));  
+
+  // pmodJB related iobufs
+    IOBUF pmodJB_data_iobuf_0
+         (.I(pmodJB_out[0]),
+          .IO(pmodJB[0]),
+          .O(pmodJB_in[0]),
+          .T(pmodJB_tri[0]));
+    IOBUF pmodJB_data_iobuf_1
+         (.I(pmodJB_out[1]),
+          .IO(pmodJB[1]),
+          .O(pmodJB_in[1]),
+          .T(pmodJB_tri[1]));
+    IOBUF pmodJB_data_iobuf2
+         (.I(pmodJB_out[2]),
+          .IO(pmodJB[2]),
+          .O(pmodJB_in[2]),
+          .T(pmodJB_tri[2]));
+    IOBUF pmodJB_data_iobuf_3
+         (.I(pmodJB_out[3]),
+          .IO(pmodJB[3]),
+          .O(pmodJB_in[3]),
+          .T(pmodJB_tri[3]));
+    IOBUF pmodJB_data_iobuf_4
+         (.I(pmodJB_out[4]),
+          .IO(pmodJB[4]),
+          .O(pmodJB_in[4]),
+          .T(pmodJB_tri[4]));
+    IOBUF pmodJB_data_iobuf_5
+         (.I(pmodJB_out[5]),
+          .IO(pmodJB[5]),
+          .O(pmodJB_in[5]),
+          .T(pmodJB_tri[5]));
+    IOBUF pmodJB_data_iobuf_6
+         (.I(pmodJB_out[6]),
+          .IO(pmodJB[6]),
+          .O(pmodJB_in[6]),
+          .T(pmodJB_tri[6]));
+    IOBUF pmodJB_data_iobuf_7
+         (.I(pmodJB_out[7]),
+          .IO(pmodJB[7]),
+          .O(pmodJB_in[7]),
+          .T(pmodJB_tri[7]));  
 endmodule
