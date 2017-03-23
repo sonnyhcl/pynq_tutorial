@@ -707,11 +707,11 @@ proc create_root_design { parentCell } {
   set btns_1_0 [ create_bd_port -dir I -from 1 -to 0 btns_1_0 ]
   set btns_3_2 [ create_bd_port -dir I -from 1 -to 0 btns_3_2 ]
   set leds_3_2 [ create_bd_port -dir O -from 1 -to 0 leds_3_2 ]
-  set pmodJA_data_in [ create_bd_port -dir I -from 7 -to 0 pmodJA_data_in ]
-  set pmodJA_data_out [ create_bd_port -dir O -from 7 -to 0 pmodJA_data_out ]
+  set pmodJA_in [ create_bd_port -dir I -from 7 -to 0 pmodJA_in ]
+  set pmodJA_out [ create_bd_port -dir O -from 7 -to 0 pmodJA_out ]
   set pmodJA_tri_out [ create_bd_port -dir O -from 7 -to 0 pmodJA_tri_out ]
-  set pmodJB_data_in [ create_bd_port -dir I -from 7 -to 0 pmodJB_data_in ]
-  set pmodJB_data_out [ create_bd_port -dir O -from 7 -to 0 pmodJB_data_out ]
+  set pmodJB_in [ create_bd_port -dir I -from 7 -to 0 pmodJB_in ]
+  set pmodJB_out [ create_bd_port -dir O -from 7 -to 0 pmodJB_out ]
   set pmodJB_tri_out [ create_bd_port -dir O -from 7 -to 0 pmodJB_tri_out ]
 
   # Create instance: axi_dma_from_pl_to_ps, and set properties
@@ -771,7 +771,7 @@ CONFIG.NUM_PORTS {5} \
   set_property -dict [ list \
 CONFIG.DIN_FROM {8} \
 CONFIG.DIN_TO {7} \
-CONFIG.DIN_WIDTH {64} \
+CONFIG.DIN_WIDTH {9} \
 CONFIG.DOUT_WIDTH {2} \
  ] $emio_gpio_3_2
 
@@ -795,7 +795,7 @@ CONFIG.NUM_PORTS {2} \
   set_property -dict [ list \
 CONFIG.DIN_FROM {4} \
 CONFIG.DIN_TO {4} \
-CONFIG.DIN_WIDTH {7} \
+CONFIG.DIN_WIDTH {9} \
 CONFIG.DOUT_WIDTH {1} \
  ] $mb_1_intr_ack
 
@@ -804,7 +804,7 @@ CONFIG.DOUT_WIDTH {1} \
   set_property -dict [ list \
 CONFIG.DIN_FROM {0} \
 CONFIG.DIN_TO {0} \
-CONFIG.DIN_WIDTH {7} \
+CONFIG.DIN_WIDTH {9} \
 CONFIG.DOUT_WIDTH {1} \
  ] $mb_1_reset
 
@@ -813,7 +813,7 @@ CONFIG.DOUT_WIDTH {1} \
   set_property -dict [ list \
 CONFIG.DIN_FROM {5} \
 CONFIG.DIN_TO {5} \
-CONFIG.DIN_WIDTH {7} \
+CONFIG.DIN_WIDTH {9} \
 CONFIG.DOUT_WIDTH {1} \
  ] $mb_2_intr_ack
 
@@ -822,7 +822,7 @@ CONFIG.DOUT_WIDTH {1} \
   set_property -dict [ list \
 CONFIG.DIN_FROM {1} \
 CONFIG.DIN_TO {1} \
-CONFIG.DIN_WIDTH {7} \
+CONFIG.DIN_WIDTH {9} \
 CONFIG.DOUT_WIDTH {1} \
  ] $mb_2_reset
 
@@ -1793,12 +1793,12 @@ CONFIG.C_IS_DUAL {1} \
   connect_bd_net -net logic_1_dout [get_bd_pins iop1/ext_reset_in] [get_bd_pins iop2/ext_reset_in] [get_bd_pins logic_1/dout]
   connect_bd_net -net mb_1_reset_Dout [get_bd_pins iop1/aux_reset_in] [get_bd_pins mb_1_reset/Dout]
   connect_bd_net -net mb_2_reset_Dout [get_bd_pins iop2/aux_reset_in] [get_bd_pins mb_2_reset/Dout]
-  connect_bd_net -net mb_JB1_sw2pmod_data_out [get_bd_ports pmodJB_data_out] [get_bd_pins iop2/sw2pmod_data_out]
+  connect_bd_net -net mb_JB1_sw2pmod_data_out [get_bd_ports pmodJB_out] [get_bd_pins iop2/sw2pmod_data_out]
   connect_bd_net -net mb_JB1_sw2pmod_tri_out [get_bd_ports pmodJB_tri_out] [get_bd_pins iop2/sw2pmod_tri_out]
   connect_bd_net -net mdm_1_debug_sys_rst [get_bd_pins iop1/mb_debug_sys_rst] [get_bd_pins iop2/mb_debug_sys_rst] [get_bd_pins mdm_1/Debug_SYS_Rst]
-  connect_bd_net -net pmod2sw_data_in_1 [get_bd_ports pmodJA_data_in] [get_bd_pins iop1/pmod2sw_data_in]
-  connect_bd_net -net pmod2sw_data_in_2 [get_bd_ports pmodJB_data_in] [get_bd_pins iop2/pmod2sw_data_in]
-  connect_bd_net -net pmod_io_switch_0_sw2pmod_data_out [get_bd_ports pmodJA_data_out] [get_bd_pins iop1/sw2pmod_data_out]
+  connect_bd_net -net pmod2sw_data_in_1 [get_bd_ports pmodJA_in] [get_bd_pins iop1/pmod2sw_data_in]
+  connect_bd_net -net pmod2sw_data_in_2 [get_bd_ports pmodJB_in] [get_bd_pins iop2/pmod2sw_data_in]
+  connect_bd_net -net pmod_io_switch_0_sw2pmod_data_out [get_bd_ports pmodJA_out] [get_bd_pins iop1/sw2pmod_data_out]
   connect_bd_net -net pmod_io_switch_0_sw2pmod_tri_out [get_bd_ports pmodJA_tri_out] [get_bd_pins iop1/sw2pmod_tri_out]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins axi_dma_from_pl_to_ps/m_axi_s2mm_aclk] [get_bd_pins axi_dma_from_pl_to_ps/s_axi_lite_aclk] [get_bd_pins axi_dma_from_ps_to_pl/m_axi_mm2s_aclk] [get_bd_pins axi_dma_from_ps_to_pl/s_axi_lite_aclk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/S01_ACLK] [get_bd_pins axi_interconnect_0/S02_ACLK] [get_bd_pins axi_mem_intercon/ACLK] [get_bd_pins axi_mem_intercon/M00_ACLK] [get_bd_pins axi_mem_intercon/S00_ACLK] [get_bd_pins axi_mem_intercon_1/ACLK] [get_bd_pins axi_mem_intercon_1/M00_ACLK] [get_bd_pins axi_mem_intercon_1/S00_ACLK] [get_bd_pins axis_data_fifo/s_axis_aclk] [get_bd_pins btns_gpio/s_axi_aclk] [get_bd_pins iop1/clk] [get_bd_pins iop2/clk] [get_bd_pins mb_bram_ctrl_1/s_axi_aclk] [get_bd_pins mb_bram_ctrl_2/s_axi_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP2_ACLK] [get_bd_pins processing_system7_0_axi_periph/ACLK] [get_bd_pins processing_system7_0_axi_periph/M00_ACLK] [get_bd_pins processing_system7_0_axi_periph/M01_ACLK] [get_bd_pins processing_system7_0_axi_periph/M02_ACLK] [get_bd_pins processing_system7_0_axi_periph/M03_ACLK] [get_bd_pins processing_system7_0_axi_periph/M04_ACLK] [get_bd_pins processing_system7_0_axi_periph/M05_ACLK] [get_bd_pins processing_system7_0_axi_periph/M06_ACLK] [get_bd_pins processing_system7_0_axi_periph/M07_ACLK] [get_bd_pins processing_system7_0_axi_periph/S00_ACLK] [get_bd_pins rgbleds_gpio/s_axi_aclk] [get_bd_pins rst_processing_system7_0_100M/slowest_sync_clk] [get_bd_pins swsleds_gpio/s_axi_aclk] [get_bd_pins system_interrupts/s_axi_aclk]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins rst_processing_system7_0_100M/ext_reset_in]
@@ -1836,7 +1836,8 @@ CONFIG.C_IS_DUAL {1} \
   create_bd_addr_seg -range 0x00010000 -offset 0x44A00000 [get_bd_addr_spaces iop2/mb/Data] [get_bd_addr_segs iop2/mb2_pmod_io_switch/S00_AXI/S00_AXI_reg] SEG_mb2_pmod_io_switch_S00_AXI_reg
   create_bd_addr_seg -range 0x00010000 -offset 0x44A10000 [get_bd_addr_spaces iop2/mb/Data] [get_bd_addr_segs iop2/mb2_spi/AXI_LITE/Reg] SEG_mb2_spi_Reg
   create_bd_addr_seg -range 0x00010000 -offset 0x41C00000 [get_bd_addr_spaces iop2/mb/Data] [get_bd_addr_segs iop2/mb2_timer/S_AXI/Reg] SEG_mb2_timer_Reg
-
+create_bd_addr_seg -range 0x20000000 -offset 0x20000000 [get_bd_addr_spaces iop1/mb/Data] [get_bd_addr_segs processing_system7_0/S_AXI_GP0/GP0_DDR_LOWOCM] SEG_processing_system7_0_GP0_DDR_LOWOCM
+create_bd_addr_seg -range 0x20000000 -offset 0x20000000 [get_bd_addr_spaces iop2/mb/Data] [get_bd_addr_segs processing_system7_0/S_AXI_GP0/GP0_DDR_LOWOCM] SEG_processing_system7_0_GP0_DDR_LOWOCM
   # Perform GUI Layout
   regenerate_bd_layout 
 
@@ -1854,7 +1855,6 @@ CONFIG.C_IS_DUAL {1} \
 
 create_root_design ""
 
-regenerate_bd_layout
 
 add_files -fileset constrs_1 -norecurse ./src/constraints/top.xdc
 
