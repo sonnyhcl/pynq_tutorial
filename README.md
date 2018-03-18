@@ -17,7 +17,8 @@ You can find tutorial handout listed as follow:
 
 Click in and do as it shows.
 
-## hardware rebuild
+## hardware rebuilt
+> make sure you install vivado 2016.1 first.
 ### ubuntu
 ```console
 git clone https://github.com/sonnyhcl/pynq_tutorial.git
