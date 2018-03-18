@@ -14,6 +14,7 @@ Then you can open your browser and visit `<pynq_ip>:9090/tree/pynq_tutorial/note
 You can find tutorial handout listed as follow:
 -   GPIO example
 -   Xlnk example
+-   DMA example
 
 Click in and do as it shows.
 
